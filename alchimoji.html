@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow">
+  <title>Alchimoji - Generador de Creatividades</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+  <style>
+    body {
+      font-family: 'Mulish', sans-serif;
+      display: flex;
+      flex-direction: row;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 280px;
+      padding: 20px;
+      background: #f5f5f5;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    }
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #323438;
+    }
+    .sidebar label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+    .sidebar select, .sidebar input, .sidebar button {
+      width: 100%;
+      margin-top: 4px;
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .sidebar button {
+      background-color: #323438;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 16px;
+    }
+    .sidebar button:hover {
+      background-color: #1E94A0;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin: auto;
+    }
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eeeeee;
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Generar Creatividad</h2>
+  <label for="size">Formato:</label>
+  <select id="size">
+    <option value="300x600">300x600</option>
+    <option value="728x90">728x90</option>
+    <option value="300x250">300x250</option>
+    <option value="320x50">320x50</option>
+    <option value="160x600">160x600</option>
+  </select>
+
+  <label for="audience">Audiencia:</label>
+  <select id="audience">
+    <option value="gamers">Gamers</option>
+    <option value="streaming">Streaming</option>
+    <option value="musica">Música</option>
+  </select>
+
+  <label for="moment">Momento del día:</label>
+  <select id="moment">
+    <option value="dia">Día</option>
+    <option value="noche">Noche</option>
+  </select>
+
+  <label for="copy">Texto / Copy:</label>
+  <input type="text" id="copy" placeholder="Escribe el texto aquí..." />
+
+  <label for="assetUpload">Subir assets:</label>
+  <input type="file" id="assetUpload" multiple accept="image/*" />
+
+  <button onclick="generarCreatividad()">Generar Creatividad</button>
+</div>
+
+<div class="main">
+  <canvas id="creativeCanvas" width="300" height="600"></canvas>
+</div>
+
+<script>
+  let canvas = new fabric.Canvas('creativeCanvas');
+
+  function generarCreatividad() {
+    // Limpiar el lienzo
+    canvas.clear();
+
+    // Obtener parámetros seleccionados
+    const size = document.getElementById('size').value;
+    const [width, height] = size.split('x').map(Number);
+    canvas.setWidth(width);
+    canvas.setHeight(height);
+
+    const copy = document.getElementById('copy').value;
+    const files = document.getElementById('assetUpload').files;
+
+    // Añadir texto (copy)
+    const text = new fabric.Textbox(copy, {
+      left: 20,
+      top: 20,
+      width: width - 40,
+      fontSize: 18,
+      fill: '#323438'
+    });
+    canvas.add(text);
+
+    // Colocar logo en esquina inferior derecha
+    fabric.Image.fromURL('assets/TRKKN_icon.png', function(logo) {
+      logo.scaleToWidth(width * 0.15);
+      logo.set({
+        left: width - logo.getScaledWidth() - 10,
+        top: height - logo.getScaledHeight() - 10
+      });
+      canvas.add(logo);
+    });
+
+    // Cargar los assets seleccionados
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        fabric.Image.fromURL(event.target.result, function(img) {
+          img.scaleToWidth(width * 0.4);
+          img.set({
+            left: 20 + (i * 20),
+            top: 80 + (i * 30),
+            opacity: 0.9
+          });
+          canvas.add(img);
+        });
+      };
+      reader.readAsDataURL(files[i]);
+    }
+  }
+</script>
+
+</body>
+</html>
