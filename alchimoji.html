@@ -47,36 +47,79 @@
       border: none;
       cursor: pointer;
     }
+
+    .form-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.form-section label {
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+input[type="checkbox"] {
+  margin-right: 4px;
+}
+
+button {
+  font-family: 'Mulish', sans-serif;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background-color: #00C6AE;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #00b39b;
+}
+    
   </style>
 </head>
 <body>
   <h1><img src="Alchimoji_Logo.png" alt="Alchimoji Logo""></h1>
 
-  <form id="assetForm">
-    <label>🎯 Audiencia:</label>
+<form id="assetForm">
+  <div class="form-section">
+    <strong>🎯 Audiencia:</strong>
     <label><input type="checkbox" name="audiencia" value="gamers"> 🎮 Gamers</label>
     <label><input type="checkbox" name="audiencia" value="streaming"> 📺 Streaming</label>
     <label><input type="checkbox" name="audiencia" value="melomaniac"> 🎵 Melómanos</label>
+  </div>
 
-    <label>🕒 Momento del día:</label>
+  <div class="form-section">
+    <strong>🕒 Momento del día:</strong>
     <label><input type="checkbox" name="momento" value="dia"> 🌞 Día</label>
     <label><input type="checkbox" name="momento" value="noche"> 🌙 Noche</label>
+  </div>
 
-    <label>📝 Texto (Copy):</label>
-    <input type="text" name="copy" placeholder="Escribe tu copy aquí...">
+  <div class="form-section">
+    <strong>📝 Texto (Copy):</strong>
+    <input type="text" name="copy" placeholder="Escribe tu copy aquí..." style="flex: 1; min-width: 250px;">
+  </div>
 
-    <label>📐 Tamaños:</label>
+  <div class="form-section">
+    <strong>📐 Tamaños:</strong>
     <label><input type="checkbox" name="size" value="300x600"> 300x600</label>
     <label><input type="checkbox" name="size" value="728x90"> 728x90</label>
     <label><input type="checkbox" name="size" value="300x250"> 300x250</label>
     <label><input type="checkbox" name="size" value="320x50"> 320x50</label>
     <label><input type="checkbox" name="size" value="160x600"> 160x600</label>
+  </div>
 
-    <button type="submit">🎨 Generar creatividades</button>
+  <button type="submit">🎨 Generar creatividades</button>
   </form>
 
-  <div>
-    <button id="downloadAllBtn">📦 Descargar todas</button>
+  <button id="downloadAllBtn">📦 Descargar todas</button>
+    
   </div>
 
   <div class="preview-container" id="previewContainer"></div>
