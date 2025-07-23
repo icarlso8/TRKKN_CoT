@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow">
+  <title>Alchimoji - Dynamic Creative Builder</title>
+  <link rel="icon" type="image/png" href="TRKKN_icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    const audienceCheckboxes = document.querySelectorAll('input[name="audience"]');
+    const momentCheckboxes = document.querySelectorAll('input[name="moment"]');
+    const copyInput = document.getElementById('copy');
+    const sizeSelect = document.getElementById('size');
+    const canvasZone = document.getElementById('canvasZone');
+
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      canvasZone.innerHTML = '';
+      const selectedAudiences = Array.from(audienceCheckboxes).filter(c => c.checked).map(c => c.value);
+      const selectedMoments = Array.from(momentCheckboxes).filter(c => c.checked).map(c => c.value);
+      const copy = copyInput.value;
+      const [width, height] = sizeSelect.value.split('x').map(Number);
+
+      for (const audience of selectedAudiences) {
+        for (const moment of selectedMoments) {
+          const path = `assets/${audience}/${moment}/`;
+          const folderRef = ref(storage, path);
+          try {
+            const files = await listAll(folderRef);
+            for (const fileRef of files.items) {
+              const url = await getDownloadURL(fileRef);
+
+              const canvasEl = document.createElement('canvas');
+              canvasEl.width = width;
+              canvasEl.height = height;
+              canvasZone.appendChild(canvasEl);
+
+              const canvas = new fabric.Canvas(canvasEl, { width, height });
+
+              fabric.Image.fromURL(url, img => {
+                img.scaleToWidth(width);
+                img.set({ top: 0, left: 0 });
+                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+              });
+
+              const text = new fabric.Textbox(copy, {
+                top: 10,
+                left: 10,
+                width: width - 20,
+                fontSize: 18,
+                fill: '#ffffff',
+                fontWeight: 'bold',
+                shadow: '1px 1px 2px #000'
+              });
+              canvas.add(text);
+
+              const logoPath = "assets/logos/logo_default.png";
+              const logoRef = ref(storage, logoPath);
+              const logoUrl = await getDownloadURL(logoRef);
+              fabric.Image.fromURL(logoUrl, logo => {
+                logo.scaleToWidth(width * 0.2);
+                logo.set({
+                  left: width - logo.getScaledWidth() - 10,
+                  top: height - logo.getScaledHeight() - 10
+                });
+                canvas.add(logo);
+              });
+            }
+          } catch (err) {
+            console.error("Error al cargar assets:", err);
+          }
+        }
+      }
+    });
+  </script>
+  <style>
+    body {
+      font-family: 'Mulish', sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    h1 {
+      color: #323438;
+      text-align: center;
+    }
+    .group {
+      margin: 20px 0;
+    }
+    .group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    .checkboxes label {
+      display: inline-block;
+      margin-right: 15px;
+    }
+    .canvas-zone {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎨 Alchimoji - Generador de Creatividades</h1>
+
+<div class="group checkboxes">
+  <label>Audiencia:</label>
+  <label><input type="checkbox" name="audience" value="gamers" checked /> 🎮 Gamers</label>
+  <label><input type="checkbox" name="audience" value="streaming" /> 📺 Streaming</label>
+  <label><input type="checkbox" name="audience" value="melomanos" /> 🎵 Melómanos</label>
+</div>
+
+<div class="group checkboxes">
+  <label>Momento del día:</label>
+  <label><input type="checkbox" name="moment" value="dia" checked /> 🌞 Día</label>
+  <label><input type="checkbox" name="moment" value="noche" /> 🌙 Noche</label>
+</div>
+
+<div class="group">
+  <label for="copy">Texto / Copy:</label>
+  <input type="text" id="copy" placeholder="Ej: Vive la experiencia definitiva..." style="width:100%; padding: 8px;" />
+</div>
+
+<div class="group">
+  <label for="size">Formato:</label>
+  <select id="size">
+    <option value="300x600">300x600</option>
+    <option value="728x90">728x90</option>
+    <option value="300x250">300x250</option>
+    <option value="320x50">320x50</option>
+    <option value="160x600">160x600</option>
+  </select>
+</div>
+
+<div class="group">
+  <button id="generateBtn" style="padding: 10px 20px; background: #1E94A0; color: white; border: none; border-radius: 6px;">Generar Creatividades</button>
+</div>
+
+<div class="canvas-zone" id="canvasZone"></div>
+
+</body>
+</html>
