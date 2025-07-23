@@ -30,12 +30,27 @@
     h1 { text-align: center; }
     .menu { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 40px; }
     button { padding: 12px 24px; background: #1E94A0; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+
+    .menu-logo {
+  background: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  }
+  .menu-logo img {
+  height: 80px;
+  }
+  
   </style>
 </head>
 <body>
   <h1>TRKKN_CoT</h1>
   <div class="menu">
-    <button onclick="location.href='alchimoji_drive_version_modular.html'">🎨 Alchimoji</button>
+    <!-- <button onclick="location.href='alchimoji_drive_version_modular.html'">🎨 Alchimoji</button> -->
+    <button class="menu-logo" onclick="location.href='alchimoji.html'">
+    <img src="Alchimoji_Logo.png" alt="Alchimoji Logo">
+    </button>
+
     <button onclick="location.href='#'">📱 WhatsApp Conversion Import (WCI)</button>
     <button id="logoutBtn">Cerrar sesión</button>
   </div>
