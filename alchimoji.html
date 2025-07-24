@@ -88,9 +88,9 @@
 <body>
   <h1><img src="Alchimoji_Logo.png" alt="Alchimoji Logo""></h1>
 
-  <form id="alchimoji-form">
+  <form id="alchimoji-form" style="text-align: left;">
   <!-- Logo -->
-  <!-- <img src="assets/Alchimoji_Logo.png" alt="Alchimoji Logo" style="height: 60px; margin-bottom: 10px;" /> -->
+  <img src="assets/Alchimoji_Logo.png" alt="Alchimoji Logo" style="height: 60px; margin-bottom: 10px;" />
 
   <!-- Audiencias -->
   <div class="form-section">
@@ -111,24 +111,24 @@
   <div class="form-section" style="flex-direction: column; align-items: flex-start;">
     <strong>📝 Copies:</strong>
 
-    <label style="margin-left: 16px;">
+    <label style="margin-left: 16px; width: 100%;">
       <input type="checkbox" name="copy1">
       Texto 1:
-      <input type="text" maxlength="60" name="copyText1" placeholder="Texto 1..." style="margin-left: 8px;">
+      <input type="text" maxlength="60" name="copyText1" placeholder="Texto 1..." style="margin-left: 8px; width: 60%;">
       <input type="color" name="copyColor1" value="#ffffff" title="Color del texto">
     </label>
 
-    <label style="margin-left: 16px;">
+    <label style="margin-left: 16px; width: 100%;">
       <input type="checkbox" name="copy2">
       Texto 2:
-      <input type="text" maxlength="60" name="copyText2" placeholder="Texto 2..." style="margin-left: 8px;">
+      <input type="text" maxlength="60" name="copyText2" placeholder="Texto 2..." style="margin-left: 8px; width: 60%;">
       <input type="color" name="copyColor2" value="#ffffff" title="Color del texto">
     </label>
 
-    <label style="margin-left: 16px;">
+    <label style="margin-left: 16px; width: 100%;">
       <input type="checkbox" name="copy3">
       Texto 3:
-      <input type="text" maxlength="60" name="copyText3" placeholder="Texto 3..." style="margin-left: 8px;">
+      <input type="text" maxlength="60" name="copyText3" placeholder="Texto 3..." style="margin-left: 8px; width: 60%;">
       <input type="color" name="copyColor3" value="#ffffff" title="Color del texto">
     </label>
   </div>
@@ -177,10 +177,11 @@
 
   <!-- Botones -->
   <div class="form-section">
-    <button type="button" onclick="generateCreatives()">😮‍💨 Generar creatividades</button>
-    <button type="button" onclick="downloadAll()">📦 Descargar todas</button>
+    <button type="button" onclick="generateCreatives()">Generar creatividades</button>
+    <button type="button" onclick="downloadAll()">Descargar todas</button>
   </div>
-</form>
+  </form>
+
 
 
   <div class="preview-container" id="previewContainer"></div>
