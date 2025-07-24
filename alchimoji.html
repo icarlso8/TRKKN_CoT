@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alchimoji</title>
+  <link rel="icon" href="assets/TRKKN_icon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Mulish', sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 20px;
+      color: #111;
+    }
+    header img {
+      height: 50px;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      max-width: 900px;
+    }
+    .form-section {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .form-section label {
+      margin-right: 12px;
+    }
+    .form-section strong {
+      width: 140px;
+    }
+    input[type="text"] {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    input[type="color"] {
+      width: 40px;
+      height: 30px;
+      border: none;
+      background: none;
+    }
+    select {
+      padding: 6px;
+      border-radius: 6px;
+    }
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      background-color: #111;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-right: 12px;
+    }
+    #preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="assets/TRKKN_icon.png" alt="Alchimoji logo" />
+  </header>
+
+  <form id="assetForm">
+    <div class="form-section">
+      <strong>🎯 Audiencias:</strong>
+      <label><input type="checkbox" name="audiencia" value="gamers" /> 🎮 Gamers</label>
+      <label><input type="checkbox" name="audiencia" value="streaming" /> 📺 Streaming</label>
+      <label><input type="checkbox" name="audiencia" value="melomaniac" /> 🎵 Melómanos</label>
+    </div>
+
+    <div class="form-section">
+      <strong>🕒 Momento del día:</strong>
+      <label><input type="checkbox" name="momento" value="dia" /> 🌞 Día</label>
+      <label><input type="checkbox" name="momento" value="noche" /> 🌙 Noche</label>
+    </div>
+
+    <div class="form-section">
+      <strong>📝 Copies:</strong>
+      <label><input type="checkbox" name="texto1" /> Texto 1: <input type="text" id="text1" maxlength="60" placeholder="Texto 1..." /> <input type="color" id="color1" value="#ffffff" /></label>
+      <label><input type="checkbox" name="texto2" /> Texto 2: <input type="text" id="text2" maxlength="60" placeholder="Texto 2..." /> <input type="color" id="color2" value="#ffffff" /></label>
+      <label><input type="checkbox" name="texto3" /> Texto 3: <input type="text" id="text3" maxlength="60" placeholder="Texto 3..." /> <input type="color" id="color3" value="#ffffff" /></label>
+    </div>
+
+    <div class="form-section">
+      <strong>🧩 Íconos:</strong>
+      <label><input type="checkbox" name="icon1" /> Icono 1: <select id="icon1"></select></label>
+      <label><input type="checkbox" name="icon2" /> Icono 2: <select id="icon2"></select></label>
+      <label><input type="checkbox" name="icon3" /> Icono 3: <select id="icon3"></select></label>
+    </div>
+
+    <div class="form-section">
+      <strong>📐 Tamaños:</strong>
+      <label><input type="checkbox" name="size" value="300x600" /> 300x600</label>
+      <label><input type="checkbox" name="size" value="728x90" /> 728x90</label>
+      <label><input type="checkbox" name="size" value="300x250" /> 300x250</label>
+      <label><input type="checkbox" name="size" value="320x50" /> 320x50</label>
+      <label><input type="checkbox" name="size" value="160x600" /> 160x600</label>
+    </div>
+
+    <div class="form-section">
+      <button type="button" id="generateBtn">Generar creatividades</button>
+      <button type="button" id="downloadAllBtn">Descargar todas</button>
+    </div>
+  </form>
+
+  <div id="preview"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/alchimoji.js"></script>
+</body>
+</html>
