@@ -94,7 +94,8 @@
 <body>
   <h1><img src="Alchimoji_Logo.png" alt="Alchimoji Logo""></h1>
 
-  <form id="alchimoji-form" style="text-align: left;">
+  <!-- <form id="alchimoji-form" style="text-align: left;"> -->
+  <form id="assetForm" style="text-align: left;">
   <!-- Logo -->
   <!-- <img src="assets/Alchimoji_Logo.png" alt="Alchimoji Logo" style="height: 60px; margin-bottom: 10px;" /> -->
 
@@ -183,8 +184,10 @@
 
   <!-- Botones -->
   <div class="form-section">
-    <button type="button" onclick="generateCreatives()">Generar creatividades</button>
-    <button type="button" onclick="downloadAll()">Descargar todas</button>
+    <!-- <button type="button" onclick="generateCreatives()">Generar creatividades</button> -->
+    <button id="generateBtn" type="submit">Generar creatividades</button>
+    <!-- <button type="button" onclick="downloadAll()">Descargar todas</button> -->
+    <button id="downloadAllBtn" type="button">Descargar todas</button>
   </div>
   </form>
 
@@ -216,56 +219,65 @@
       const audiencias = [...form.querySelectorAll('input[name="audiencia"]:checked')].map(el => el.value);
       const momentos = [...form.querySelectorAll('input[name="momento"]:checked')].map(el => el.value);
       const sizes = [...form.querySelectorAll('input[name="size"]:checked')].map(el => el.value);
-      const copy = form.copy.value || "Tu mensaje aquí";
-
+      const copies = [];
+  
+      if (form.copy1.checked) copies.push({ text: form.copyText1.value, color: form.copyColor1.value });
+      if (form.copy2.checked) copies.push({ text: form.copyText2.value, color: form.copyColor2.value });
+      if (form.copy3.checked) copies.push({ text: form.copyText3.value, color: form.copyColor3.value });
+  
       audiencias.forEach(aud => {
         momentos.forEach(mom => {
           sizes.forEach(size => {
             const fondoPath = `${baseURL}/${aud}/${mom}/${aud}_${mom}_01.png`;
             const logoPath = `${baseURL}/logos/logo_claro_v1.png`;
-
+  
             const canvas = document.createElement('canvas');
             const [w, h] = size.split('x').map(Number);
             canvas.width = w;
             canvas.height = h;
             const ctx = canvas.getContext('2d');
-
+  
             const fondoImg = new Image();
             const logoImg = new Image();
             let imagesLoaded = 0;
-
+  
             fondoImg.crossOrigin = "anonymous";
             logoImg.crossOrigin = "anonymous";
             fondoImg.src = fondoPath;
             logoImg.src = logoPath;
-
+  
             fondoImg.onload = logoImg.onload = () => {
               imagesLoaded++;
               if (imagesLoaded === 2) {
                 ctx.drawImage(fondoImg, 0, 0, w, h);
                 ctx.drawImage(logoImg, 10, 10, 40, 40);
-                ctx.fillStyle = "white";
-                ctx.font = "bold 14px Mulish";
-                ctx.fillText(copy, 10, h - 20);
-
+  
+                copies.forEach((copy, index) => {
+                  ctx.fillStyle = copy.color || "#ffffff";
+                  ctx.font = "bold 14px Mulish";
+                  ctx.fillText(copy.text, 10, h - 20 - index * 20);
+                });
+  
                 const dataURL = canvas.toDataURL("image/png");
+                const fileName = `${aud}_${mom}_${size}.png`;
+  
                 const div = document.createElement('div');
                 div.className = 'preview';
                 div.style.width = w + 'px';
                 div.style.height = h + 'px';
                 div.innerHTML = `
                   <img src="${dataURL}" alt="Creatividad" />
-                  <button onclick="downloadURI('${dataURL}', 'alchimoji_${aud}_${mom}_${size}.png')">⬇️ Descargar</button>
+                  <button onclick="downloadURI('${dataURL}', '${fileName}')">Descargar</button>
                 `;
                 previewContainer.appendChild(div);
-                generatedImages.push({ name: `alchimoji_${aud}_${mom}_${size}.png`, data: dataURL });
+                generatedImages.push({ name: fileName, data: dataURL });
               }
             };
           });
         });
       });
     });
-
+  
     downloadAllBtn.addEventListener('click', async () => {
       if (!generatedImages.length) {
         alert("Primero genera creatividades.");
