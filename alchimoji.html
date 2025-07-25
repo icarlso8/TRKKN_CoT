@@ -302,6 +302,16 @@
               `;
               previewContainer.appendChild(div);
               generatedImages.push({ name: fileName, data: dataURL });
+              const metadata = {
+                nombre: fileName,
+                audiencia: aud,
+                momento: mom,
+                tamano: size,
+                copies: copies.map(c => c.text),
+                logo: logoPath ? logoPath.split('/').pop() : null,
+                iconos: iconPaths.map(p => p.split('/').pop())
+              };
+              generatedMetadata.push(metadata);
             });
           });
         });
