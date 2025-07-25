@@ -221,90 +221,92 @@
       document.body.removeChild(link);
     }
 
-    form.addEventListener('submit', function (e) {
+      form.addEventListener('submit', function (e) {
       e.preventDefault();
       previewContainer.innerHTML = '';
       generatedImages = [];
-
+    
       const audiencias = [...form.querySelectorAll('input[name="audiencia"]:checked')].map(el => el.value);
       const momentos = [...form.querySelectorAll('input[name="momento"]:checked')].map(el => el.value);
       const sizes = [...form.querySelectorAll('input[name="size"]:checked')].map(el => el.value);
       const copies = [];
-  
+    
       if (form.copy1.checked) copies.push({ text: form.copyText1.value, color: form.copyColor1.value });
       if (form.copy2.checked) copies.push({ text: form.copyText2.value, color: form.copyColor2.value });
       if (form.copy3.checked) copies.push({ text: form.copyText3.value, color: form.copyColor3.value });
-  
+    
       audiencias.forEach(aud => {
         momentos.forEach(mom => {
           sizes.forEach(size => {
             const fondoPath = `${baseURL}/${aud}/${mom}/${aud}_${mom}_01.png`;
-            /*const logoPath = `${baseURL}/logos/logo_claro_v1.png`;*/
-            const selectedLogo = form.logoSelect.value;
-            const logoPath = selectedLogo ? selectedLogo.replace('assets', baseURL) : '';
-
+            const logoPath = form.logoSelect.value ? form.logoSelect.value.replace('assets', baseURL) : '';
+    
             const canvas = document.createElement('canvas');
             const [w, h] = size.split('x').map(Number);
             canvas.width = w;
             canvas.height = h;
             const ctx = canvas.getContext('2d');
-  
+    
             const fondoImg = new Image();
-            const logoImg = new Image();
-            let imagesLoaded = 0;
-  
             fondoImg.crossOrigin = "anonymous";
-            logoImg.crossOrigin = "anonymous";
             fondoImg.src = fondoPath;
+    
+            const logoImg = new Image();
+            logoImg.crossOrigin = "anonymous";
             logoImg.src = logoPath;
-  
-            fondoImg.onload = logoImg.onload = () => {
-              imagesLoaded++;
-              if (imagesLoaded === 2) {
-                ctx.drawImage(fondoImg, 0, 0, w, h);
-                ctx.drawImage(logoImg, 10, 10, 40, 40);
-
-                // Agregar íconos seleccionados
-                ['iconSelect1', 'iconSelect2', 'iconSelect3'].forEach((iconSelect, index) => {
-                  const isChecked = form[`icon${index + 1}`]?.checked;
-                  /*const iconPath = form[iconSelect]?.value;*/
-                  const iconPath = form[iconSelect]?.value.replace('assets', baseURL);
-                  if (isChecked && iconPath) {
-                    const iconImg = new Image();
-                    iconImg.crossOrigin = "anonymous";
-                    iconImg.onload = () => {
-                      ctx.drawImage(iconImg, w - 40, 10 + index * 40, 30, 30);
-                    };
-                    iconImg.src = iconPath;
-                  }
-                });
-
-                copies.forEach((copy, index) => {
-                  ctx.fillStyle = copy.color || "#ffffff";
-                  ctx.font = "bold 14px Mulish";
-                  ctx.fillText(copy.text, 10, h - 20 - index * 20);
-                });
-  
-                const dataURL = canvas.toDataURL("image/png");
-                const fileName = `${aud}_${mom}_${size}.png`;
-  
-                const div = document.createElement('div');
-                div.className = 'preview';
-                div.style.width = w + 'px';
-                div.style.height = h + 'px';
-                div.innerHTML = `
-                  <img src="${dataURL}" alt="Creatividad" />
-                  <button onclick="downloadURI('${dataURL}', '${fileName}')">Descargar</button>
-                `;
-                previewContainer.appendChild(div);
-                generatedImages.push({ name: fileName, data: dataURL });
-              }
+    
+            const iconPaths = ['iconSelect1', 'iconSelect2', 'iconSelect3'].map((iconSelect, index) => {
+              const isChecked = form[`icon${index + 1}`]?.checked;
+              const path = form[iconSelect]?.value;
+              return isChecked && path ? path.replace('assets', baseURL) : null;
+            }).filter(Boolean);
+    
+            const loadImage = (src) => {
+              return new Promise(resolve => {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => resolve(img);
+                img.src = src;
+              });
             };
+    
+            Promise.all([
+              loadImage(fondoPath),
+              logoPath ? loadImage(logoPath) : null,
+              ...iconPaths.map(loadImage)
+            ]).then(([fondo, logo, ...icons]) => {
+              ctx.drawImage(fondo, 0, 0, w, h);
+              if (logo) ctx.drawImage(logo, 10, 10, 40, 40);
+    
+              icons.forEach((icon, i) => {
+                ctx.drawImage(icon, w - 40, 10 + i * 40, 30, 30);
+              });
+    
+              copies.forEach((copy, index) => {
+                ctx.fillStyle = copy.color || "#ffffff";
+                ctx.font = "bold 14px Mulish";
+                ctx.fillText(copy.text, 10, h - 20 - index * 20);
+              });
+    
+              const dataURL = canvas.toDataURL("image/png");
+              const fileName = `${aud}_${mom}_${size}.png`;
+    
+              const div = document.createElement('div');
+              div.className = 'preview';
+              div.style.width = w + 'px';
+              div.style.height = h + 'px';
+              div.innerHTML = `
+                <img src="${dataURL}" alt="Creatividad" />
+                <button onclick="downloadURI('${dataURL}', '${fileName}')">Descargar</button>
+              `;
+              previewContainer.appendChild(div);
+              generatedImages.push({ name: fileName, data: dataURL });
+            });
           });
         });
       });
     });
-  
+
     downloadAllBtn.addEventListener('click', async () => {
       if (!generatedImages.length) {
         alert("Primero genera creatividades.");
