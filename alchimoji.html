@@ -239,8 +239,10 @@
         momentos.forEach(mom => {
           sizes.forEach(size => {
             const fondoPath = `${baseURL}/${aud}/${mom}/${aud}_${mom}_01.png`;
-            const logoPath = `${baseURL}/logos/logo_claro_v1.png`;
-  
+            /*const logoPath = `${baseURL}/logos/logo_claro_v1.png`;*/
+            const selectedLogo = form.logoSelect.value;
+            const logoPath = selectedLogo ? selectedLogo.replace('assets', baseURL) : '';
+
             const canvas = document.createElement('canvas');
             const [w, h] = size.split('x').map(Number);
             canvas.width = w;
