@@ -334,6 +334,21 @@
             select.appendChild(option);
           });
         });
+
+            // Cargar logos dinámicamente
+    fetch('assets/logos/logos.json')
+      .then(response => response.json())
+      .then(logoList => {
+        const select = document.querySelector('select[name="logoSelect"]');
+        select.innerHTML = '<option value="" disabled selected>Selecciona un logo</option>';
+        logoList.forEach(logo => {
+          const option = document.createElement('option');
+          option.value = `assets/logos/${logo}`;
+          option.textContent = logo;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error cargando logos:', error));
       })
       .catch(error => console.error('Error cargando íconos:', error));
     
