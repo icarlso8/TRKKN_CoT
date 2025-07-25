@@ -251,7 +251,21 @@
               if (imagesLoaded === 2) {
                 ctx.drawImage(fondoImg, 0, 0, w, h);
                 ctx.drawImage(logoImg, 10, 10, 40, 40);
-  
+
+                // Agregar íconos seleccionados
+                ['iconSelect1', 'iconSelect2', 'iconSelect3'].forEach((iconSelect, index) => {
+                  const isChecked = form[`icon${index + 1}`]?.checked;
+                  const iconPath = form[iconSelect]?.value;
+                  if (isChecked && iconPath) {
+                    const iconImg = new Image();
+                    iconImg.crossOrigin = "anonymous";
+                    iconImg.onload = () => {
+                      ctx.drawImage(iconImg, w - 40, 10 + index * 40, 30, 30);
+                    };
+                    iconImg.src = iconPath;
+                  }
+                });
+
                 copies.forEach((copy, index) => {
                   ctx.fillStyle = copy.color || "#ffffff";
                   ctx.font = "bold 14px Mulish";
