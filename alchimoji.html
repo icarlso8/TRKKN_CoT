@@ -307,15 +307,22 @@
       });
     });
 
+    // Descarga completa organizada por audiencia / momento / tamaño
     downloadAllBtn.addEventListener('click', async () => {
       if (!generatedImages.length) {
         alert("Primero genera creatividades.");
         return;
       }
+    
       const zip = new JSZip();
+    
       generatedImages.forEach(img => {
-        zip.file(img.name, img.data.split(',')[1], { base64: true });
+        // Extrae partes del nombre
+        const [audiencia, momento, size] = img.name.replace('.png', '').split('_');
+        const folderPath = `${audiencia}/${momento}/${size}`;
+        zip.folder(folderPath).file(`${img.name}`, img.data.split(',')[1], { base64: true });
       });
+    
       const blob = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
