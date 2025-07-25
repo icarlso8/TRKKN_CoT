@@ -267,7 +267,8 @@
                 // Agregar íconos seleccionados
                 ['iconSelect1', 'iconSelect2', 'iconSelect3'].forEach((iconSelect, index) => {
                   const isChecked = form[`icon${index + 1}`]?.checked;
-                  const iconPath = form[iconSelect]?.value;
+                  /*const iconPath = form[iconSelect]?.value;*/
+                  const iconPath = form[iconSelect]?.value.replace('assets', baseURL);
                   if (isChecked && iconPath) {
                     const iconImg = new Image();
                     iconImg.crossOrigin = "anonymous";
