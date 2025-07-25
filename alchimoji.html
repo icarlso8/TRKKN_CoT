@@ -114,6 +114,16 @@
     <label><input type="checkbox" name="momento" value="noche"> 🌙 Noche</label>
   </div>
 
+  <!-- Logos -->
+  <div class="form-section">
+    <strong>🏷️ Logo:</strong>
+    <label>
+      <select name="logoSelect" id="logoSelect">
+        <option value="" disabled selected>Selecciona un logo</option>
+      </select>
+    </label>
+  </div>
+
   <!-- Copies -->
   <div class="form-section" style="flex-direction: column; align-items: flex-start;">
     <strong>📝 Copies:</strong>
@@ -315,7 +325,8 @@
         ['iconSelect1', 'iconSelect2', 'iconSelect3'].forEach(selectName => {
           const select = document.querySelector(`select[name="${selectName}"]`);
           if (!select) return;
-          select.innerHTML = ''; // Limpiar opciones previas
+          /* select.innerHTML = ''; // Limpiar opciones previas */
+          select.innerHTML = '<option value="" disabled selected>Selecciona un ícono</option>';
           iconList.forEach(icon => {
             const option = document.createElement('option');
             option.value = `assets/icons/${icon}`;
