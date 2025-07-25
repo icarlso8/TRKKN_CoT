@@ -148,8 +148,8 @@
       <input type="checkbox" name="icon1">
       Icono 1:
       <select name="iconSelect1" style="margin-left: 8px;">
-        <option value="icon1.png">icon1.png</option>
-        <option value="icon2.png">icon2.png</option>
+        <!-- <option value="icon1.png">icon1.png</option> -->
+        <!-- <option value="icon2.png">icon2.png</option> -->
       </select>
     </label>
 
@@ -157,8 +157,8 @@
       <input type="checkbox" name="icon2">
       Icono 2:
       <select name="iconSelect2" style="margin-left: 8px;">
-        <option value="icon1.png">icon1.png</option>
-        <option value="icon2.png">icon2.png</option>
+        <!-- <option value="icon1.png">icon1.png</option> -->
+        <!-- <option value="icon2.png">icon2.png</option> -->
       </select>
     </label>
 
@@ -166,8 +166,8 @@
       <input type="checkbox" name="icon3">
       Icono 3:
       <select name="iconSelect3" style="margin-left: 8px;">
-        <option value="icon1.png">icon1.png</option>
-        <option value="icon2.png">icon2.png</option>
+        <!-- <option value="icon1.png">icon1.png</option> -->
+        <!-- <option value="icon2.png">icon2.png</option> -->
       </select>
     </label>
   </div>
@@ -293,6 +293,25 @@
       link.download = "alchimoji_creatividades.zip";
       link.click();
     });
+
+    // Cargar dinámicamente los íconos desde el JSON -> Solo se debe actualizar el JSON
+    fetch('assets/icons/icons.json')
+      .then(response => response.json())
+      .then(iconList => {
+        ['iconSelect1', 'iconSelect2', 'iconSelect3'].forEach(selectName => {
+          const select = document.querySelector(`select[name="${selectName}"]`);
+          if (!select) return;
+          select.innerHTML = ''; // Limpiar opciones previas
+          iconList.forEach(icon => {
+            const option = document.createElement('option');
+            option.value = `assets/icons/${icon}`;
+            option.textContent = icon;
+            select.appendChild(option);
+          });
+        });
+      })
+      .catch(error => console.error('Error cargando íconos:', error));
+    
   </script>
 </body>
 </html>
