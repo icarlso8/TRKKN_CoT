@@ -333,6 +333,8 @@
         const folderPath = `${audiencia}/${momento}/${size}`;
         zip.folder(folderPath).file(`${img.name}`, img.data.split(',')[1], { base64: true });
       });
+
+      zip.file("alchimoji_metadata.json", JSON.stringify(generatedMetadata, null, 2));
     
       const blob = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
