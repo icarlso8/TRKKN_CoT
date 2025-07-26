@@ -335,7 +335,23 @@
       });
 
       zip.file("alchimoji_metadata.json", JSON.stringify(generatedMetadata, null, 2));
-    
+
+      // Convertir metadata a CSV
+      const csvHeader = "nombre,audiencia,momento,tamano,copies,logo,iconos";
+      const csvRows = generatedMetadata.map(meta => {
+        return [
+          meta.nombre,
+          meta.audiencia,
+          meta.momento,
+          meta.tamano,
+          `"${meta.copies.join(';')}"`,
+          meta.logo || "",
+          `"${meta.iconos.join(';')}"`
+        ].join(",");
+      });
+      const csvContent = [csvHeader, ...csvRows].join("\n");
+      zip.file("alchimoji_metadata.csv", csvContent);
+
       const blob = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
