@@ -237,6 +237,18 @@
         return `${localISO}${offsetSign}:${minutes}`;
       }
     
+      function generateVariantID(meta) {
+        const variantString = [
+          meta.audiencia,
+          meta.momento,
+          meta.tamano,
+          meta.copies.join(';'),
+          meta.logo || "",
+          meta.iconos.join(';')
+        ].join('|');
+        return btoa(unescape(encodeURIComponent(variantString))).substring(0, 20); // Base64 recortado
+      }
+
       form.addEventListener('submit', function (e) {
       e.preventDefault();
       previewContainer.innerHTML = '';
