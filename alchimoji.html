@@ -452,7 +452,6 @@
         ['iconSelect1', 'iconSelect2', 'iconSelect3'].forEach(selectName => {
           const select = document.querySelector(`select[name="${selectName}"]`);
           if (!select) return;
-          /* select.innerHTML = ''; // Limpiar opciones previas */
           select.innerHTML = '<option value="" disabled selected>Selecciona un ícono</option>';
           iconList.forEach(icon => {
             const option = document.createElement('option');
@@ -461,8 +460,10 @@
             select.appendChild(option);
           });
         });
-
-            // Cargar logos dinámicamente
+      })
+      .catch(error => console.error('Error cargando íconos:', error));
+    
+    // Cargar logos (independiente)
     fetch('assets/logos/logos.json')
       .then(response => response.json())
       .then(logoList => {
@@ -476,8 +477,6 @@
         });
       })
       .catch(error => console.error('Error cargando logos:', error));
-      })
-      .catch(error => console.error('Error cargando íconos:', error));
     
   </script>
 </body>
