@@ -222,6 +222,21 @@
       document.body.removeChild(link);
     }
 
+      function generateID() {
+        return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+      }
+      
+      function getLocalTimestampISO() {
+        const now = new Date();
+        const offsetMinutes = now.getTimezoneOffset();
+        const offsetSign = offsetMinutes <= 0 ? "+" : "-";
+        const absOffset = Math.abs(offsetMinutes);
+        const hours = String(Math.floor(absOffset / 60)).padStart(2, "0");
+        const minutes = String(absOffset % 60).padStart(2, "0");
+        const localISO = new Date(now.getTime() - offsetMinutes * 60000).toISOString().slice(0, -1);
+        return `${localISO}${offsetSign}:${minutes}`;
+      }
+    
       form.addEventListener('submit', function (e) {
       e.preventDefault();
       previewContainer.innerHTML = '';
