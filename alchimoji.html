@@ -368,7 +368,11 @@
 
               const timestamp_local = getLocalTimestampISO();
               const timestamp_utc = getUTCTimestampISO();
+
+              const timestamp_local = getLocalTimestampISO();
+              const timestamp_utc = getUTCTimestampISO();
               
+              // Construye metadata ya con todos los datos actuales (incluye tamano real)
               const metadata = {
                 nombre: fileName,
                 audiencia: aud,
@@ -379,10 +383,15 @@
                 iconos: iconPaths.map(p => p.split('/').pop())
               };
               
+              // ✅ Genera el variant_id con los datos correctos
               metadata.variant_id = generateVariantID(metadata);
+              
+              // ✅ Agrega timestamp e id final
               metadata.timestamp_local = timestamp_local;
               metadata.timestamp_utc = timestamp_utc;
               metadata.id = `${metadata.variant_id}-${timestamp_local}`;
+              
+              // ✅ Guarda en el array de metadatos
               generatedMetadata.push(metadata);
             });
           });
