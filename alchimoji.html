@@ -357,6 +357,8 @@
       const csvHeader = "id,timestamp,nombre,audiencia,momento,tamano,copies,logo,iconos";
       const csvRows = generatedMetadata.map(meta => {
         return [
+          meta.id,
+          meta.timestamp,
           meta.nombre,
           meta.audiencia,
           meta.momento,
