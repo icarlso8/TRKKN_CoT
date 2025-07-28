@@ -329,9 +329,9 @@
               `;
               previewContainer.appendChild(div);
               generatedImages.push({ name: fileName, data: dataURL });
+
+              const timestamp = getLocalTimestampISO();
               const metadata = {
-                id: generateID(),
-                timestamp: getLocalTimestampISO(),
                 nombre: fileName,
                 audiencia: aud,
                 momento: mom,
@@ -340,6 +340,9 @@
                 logo: logoPath ? logoPath.split('/').pop() : null,
                 iconos: iconPaths.map(p => p.split('/').pop())
               };
+              metadata.variant_id = generateVariantID(metadata);
+              metadata.timestamp = timestamp;
+              metadata.id = `${metadata.variant_id}-${timestamp}`;
               generatedMetadata.push(metadata);
             });
           });
