@@ -389,8 +389,14 @@
               };
               
               // ✅ Genera el variant_id con los datos correctos
-              metadata.variant_id = generateVariantID(metadata);
-              
+              generateVariantID(metadata).then(variant_id => {
+                metadata.variant_id = variant_id;
+                metadata.timestamp_local = timestamp_local;
+                metadata.timestamp_utc = timestamp_utc;
+                metadata.id = `${variant_id}-${timestamp_local}`;
+                generatedMetadata.push(metadata);
+              });
+
               // ✅ Agrega timestamp e id final
               metadata.timestamp_local = timestamp_local;
               metadata.timestamp_utc = timestamp_utc;
