@@ -225,29 +225,6 @@
       function generateID() {
         return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
       }
-
-      function getLocalTimestampISO() {
-        const now = new Date();
-      
-        const tzOffsetMin = -now.getTimezoneOffset(); // En minutos
-        const sign = tzOffsetMin >= 0 ? '+' : '-';
-        const absOffset = Math.abs(tzOffsetMin);
-        const offsetHours = String(Math.floor(absOffset / 60)).padStart(2, '0');
-        const offsetMinutes = String(absOffset % 60).padStart(2, '0');
-      
-        // Ajustamos la hora local manualmente
-        const localTime = new Date(now.getTime() + tzOffsetMin * 60000); // ya en hora local
-      
-        const year = localTime.getFullYear();
-        const month = String(localTime.getMonth() + 1).padStart(2, '0');
-        const day = String(localTime.getDate()).padStart(2, '0');
-        const hours = String(localTime.getHours()).padStart(2, '0');
-        const minutes = String(localTime.getMinutes()).padStart(2, '0');
-        const seconds = String(localTime.getSeconds()).padStart(2, '0');
-        const ms = String(localTime.getMilliseconds()).padStart(3, '0');
-      
-        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${ms}${sign}${offsetHours}:${offsetMinutes}`;
-      }
     
       function generateVariantID(meta) {
         const variantString = [
