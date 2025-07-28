@@ -390,19 +390,20 @@
       const csvHeader = "id,variant_id,timestamp_local,timestamp_utc,nombre,audiencia,momento,tamano,copies,logo,iconos";
       const csvRows = generatedMetadata.map(meta => {
         return [
-          meta.id,
-          meta.variant_id,
-          meta.timestamp_local,
-          meta.timestamp_utc,
-          meta.nombre,
-          meta.audiencia,
-          meta.momento,
-          meta.tamano,
+          `"${meta.id}"`,
+          `"${meta.variant_id}"`,
+          `"${meta.timestamp_local}"`,
+          `"${meta.timestamp_utc}"`,
+          `"${meta.nombre}"`,
+          `"${meta.audiencia}"`,
+          `"${meta.momento}"`,
+          `"${meta.tamano}"`,
           `"${meta.copies.join(';')}"`,
-          meta.logo || "",
-          `"${meta.iconos.join(';')}"`
+          `"${meta.logo || ""}"`,
+          `"${meta.iconos.join(';')}"`,
         ].join(",");
       });
+      
       const csvContent = [csvHeader, ...csvRows].join("\n");
       zip.file("alchimoji_metadata.csv", csvContent);
 
