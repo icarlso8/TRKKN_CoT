@@ -233,18 +233,17 @@
       function generateID() {
         return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
       }
-    
-      function generateVariantID(meta) {
-        const variantObject = {
-          audiencia: meta.audiencia,
-          momento: meta.momento,
-          tamano: meta.tamano,
-          copies: meta.copies.join(';'),
-          logo: meta.logo || "",
-          iconos: meta.iconos.join(';')
-        };
-        const jsonString = JSON.stringify(variantObject);
-        return btoa(unescape(encodeURIComponent(jsonString))).substring(0, 20);
+
+      async function generateVariantID(meta) {
+        const variantString = [
+          meta.audiencia,
+          meta.momento,
+          meta.tamano,
+          meta.copies.join(';'),
+          meta.logo || "",
+          meta.iconos.join(';')
+        ].join('|');
+        return await sha256(variantString); // Devuelve hash de 16 caracteres
       }
 
       function getUTCTimestampISO() {
