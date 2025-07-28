@@ -318,6 +318,8 @@
               previewContainer.appendChild(div);
               generatedImages.push({ name: fileName, data: dataURL });
               const metadata = {
+                id: generateID(),
+                timestamp: getLocalTimestampISO(),
                 nombre: fileName,
                 audiencia: aud,
                 momento: mom,
