@@ -227,15 +227,16 @@
       }
     
       function generateVariantID(meta) {
-        const variantString = [
-          meta.audiencia,
-          meta.momento,
-          meta.tamano,
-          meta.copies.join(';'),
-          meta.logo || "",
-          meta.iconos.join(';')
-        ].join('|');
-        return btoa(unescape(encodeURIComponent(variantString))).substring(0, 20); // Base64 recortado
+        const variantObject = {
+          audiencia: meta.audiencia,
+          momento: meta.momento,
+          tamano: meta.tamano,
+          copies: meta.copies.join(';'),
+          logo: meta.logo || "",
+          iconos: meta.iconos.join(';')
+        };
+        const jsonString = JSON.stringify(variantObject);
+        return btoa(unescape(encodeURIComponent(jsonString))).substring(0, 20);
       }
 
       function getUTCTimestampISO() {
