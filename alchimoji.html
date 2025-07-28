@@ -354,7 +354,7 @@
       zip.file("alchimoji_metadata.json", JSON.stringify(generatedMetadata, null, 2));
 
       // Convertir metadata a CSV
-      const csvHeader = "nombre,audiencia,momento,tamano,copies,logo,iconos";
+      const csvHeader = "id,timestamp,nombre,audiencia,momento,tamano,copies,logo,iconos";
       const csvRows = generatedMetadata.map(meta => {
         return [
           meta.nombre,
