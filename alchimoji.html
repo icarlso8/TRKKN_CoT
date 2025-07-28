@@ -225,15 +225,23 @@
       function generateID() {
         return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
       }
-      
+
       function getLocalTimestampISO() {
         const now = new Date();
-        const tzOffset = -now.getTimezoneOffset(); // en minutos
-        const sign = tzOffset >= 0 ? "+" : "-";
-        const pad = n => String(Math.floor(Math.abs(n))).padStart(2, '0');
-        const offsetHours = pad(tzOffset / 60);
-        const offsetMinutes = pad(tzOffset % 60);
-        return now.toISOString().replace("Z", `${sign}${offsetHours}:${offsetMinutes}`);
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const ms = String(now.getMilliseconds()).padStart(3, '0');
+      
+        const tzOffsetMin = -now.getTimezoneOffset(); // Colombia = -300
+        const sign = tzOffsetMin >= 0 ? '+' : '-';
+        const offsetHours = String(Math.floor(Math.abs(tzOffsetMin) / 60)).padStart(2, '0');
+        const offsetMinutes = String(Math.abs(tzOffsetMin) % 60).padStart(2, '0');
+      
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${ms}${sign}${offsetHours}:${offsetMinutes}`;
       }
     
       function generateVariantID(meta) {
