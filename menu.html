@@ -5,62 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="robots" content="noindex, nofollow">
   <title>Menú - TRKKN_CoT</title>
-  <!-- <link rel="icon" type="image/png" href="TRKKN_icon.png"> -->
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet" />
 
-  <script type="module">
-    import { auth } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
-  
-    // Redirige si no hay usuario autenticado
-    onAuthStateChanged(auth, user => {
-      if (!user) {
-        window.location.href = "auth.html";
-      }
-    });
-  
-    // Cierra sesión
-    window.addEventListener("DOMContentLoaded", () => {
-      const logoutBtn = document.getElementById("logoutBtn");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", async () => {
-          await signOut(auth);
-          alert("Sesión cerrada");
-          window.location.href = "auth.html";
-        });
-      }
-    });
+  <!-- 🔒 Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAA7SZYGbCZrBpurLVrW4RPbM5Zl-32Mog",
+      authDomain: "trkkn-cot-firebase.firebaseapp.com",
+      projectId: "trkkn-cot-firebase",
+      storageBucket: "trkkn-cot-firebase.firebasestorage.app",
+      messagingSenderId: "490397786735",
+      appId: "1:490397786735:web:6cc8d158f904865bdc239a"
+    };
+    firebase.initializeApp(firebaseConfig);
   </script>
 
   <style>
-    body { font-family: 'Mulish', sans-serif; padding: 40px; background: #fff; }
+    body {
+      font-family: 'Mulish', sans-serif;
+      padding: 40px;
+      background: #fff;
+      visibility: hidden; /* 🔒 Ocultar hasta autenticar */
+    }
     h1 { text-align: center; }
-    .menu { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 40px; }
-    button { padding: 12px 24px; background: #1E94A0; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
-
+    .menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    button {
+      padding: 12px 24px;
+      background: #1E94A0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
     .menu-logo {
-  background: white;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  }
-  .menu-logo img {
-  height: 80px;
-  }
-  
+      background: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+    .menu-logo img {
+      height: 80px;
+    }
   </style>
 </head>
+
 <body>
   <h1>TRKKN_CoT</h1>
   <div class="menu">
-    <!-- <button onclick="location.href='alchimoji_drive_version_modular.html'">🎨 Alchimoji</button> -->
     <button class="menu-logo" onclick="location.href='alchimoji.html'">
-    <img src="Alchimoji_Logo.png" alt="Alchimoji Logo">
+      <img src="Alchimoji_Logo.png" alt="Alchimoji Logo">
     </button>
-
     <button onclick="location.href='wci.html'">📱 WhatsApp Conversion Import (WCI)</button>
     <button id="logoutBtn">Cerrar sesión</button>
   </div>
+
+  <script>
+    const auth = firebase.auth();
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("⚠️ Inicia sesión Trkkie!");
+        window.location.href = "auth.html";
+      } else {
+        document.body.style.visibility = "visible";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await auth.signOut();
+      alert("Sesión cerrada");
+      window.location.href = "auth.html";
+    });
+  </script>
 </body>
 </html>
