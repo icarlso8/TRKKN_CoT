@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow">
   <title>TRKKN_CoT - WhatsApp Conversion Import</title>
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
 
   <style>body { display: none !important; }</style>
+
   <script type="module">
-    import { auth } from './firebase-config.js';
+    import "./firebase-init.js";
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(window.auth, user => {
       if (!user) {
         alert("⚠️ Inicia sesión Trkkie!");
         window.location.href = "auth.html";
