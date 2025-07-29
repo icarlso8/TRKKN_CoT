@@ -7,19 +7,26 @@
   <title>TRKKN_CoT - WhatsApp Conversion Import</title>
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
 
+  <!-- Oculta el body hasta que esté autenticado -->
   <style>body { display: none !important; }</style>
 
-  <script type="module">
-    import "./firebase-init.js";
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+  <!-- Carga Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js"></script>
+  <!-- Inicializa Firebase y deja auth global -->
+  <script src="./firebase-init.js"></script>
 
-    onAuthStateChanged(window.auth, user => {
-      if (!user) {
-        alert("⚠️ Inicia sesión Trkkie!");
-        window.location.href = "auth.html";
-      } else {
-        document.body.style.display = "block";
-      }
+  <!-- Protección de acceso -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      firebase.auth().onAuthStateChanged(user => {
+        if (!user) {
+          alert("⚠️ Inicia sesión Trkkie!");
+          window.location.href = "auth.html";
+        } else {
+          document.body.style.display = "block";
+        }
+      });
     });
   </script>
 </head>
