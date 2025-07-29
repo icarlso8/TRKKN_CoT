@@ -7,15 +7,14 @@
   <title>TRKKN_CoT - WhatsApp Conversion Import</title>
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
 
-  <!-- Oculta el body hasta autenticar -->
   <style>body { display: none !important; }</style>
 
-  <!-- Cargar Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js"></script>
-
-  <!-- Configuración global de Firebase -->
-  <script src="firebase-init.js"></script>
+  <!-- ✅ Firebase UMD compatible con GitHub Pages -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+  
+  <!-- ✅ Inicializa Firebase -->
+  <script src="./firebase-init.js"></script>
 
   <!-- Protección de acceso -->
   <script>
