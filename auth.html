@@ -8,32 +8,22 @@
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet"/>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { firebaseConfig } from "./firebase-config.js";
+  <!-- Firebase UMD SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script>
+    // ⚠️ Copia directa de firebase-config.js (sin usar import)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAA7SZYGbCZrBpurLVrW4RPbM5Zl-32Mog",
+      authDomain: "trkkn-cot-firebase.firebaseapp.com",
+      projectId: "trkkn-cot-firebase",
+      storageBucket: "trkkn-cot-firebase.firebasestorage.app",
+      messagingSenderId: "490397786735",
+      appId: "1:490397786735:web:6cc8d158f904865bdc239a"
+    };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const loginForm = document.getElementById("loginForm");
-
-      loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-          window.location.href = "menu.html";
-        } catch (error) {
-          alert("Error de autenticación");
-          console.error(error);
-        }
-      });
-    });
+    firebase.initializeApp(firebaseConfig);
   </script>
-
   <style>
     body {
       font-family: 'Mulish', sans-serif;
@@ -75,5 +65,21 @@
       <button type="submit">Entrar</button>
     </form>
   </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const auth = firebase.auth();
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        window.location.href = "menu.html";
+      } catch (error) {
+        alert("Error de autenticación");
+        console.error(error);
+      }
+    });
+  </script>
 </body>
 </html>
