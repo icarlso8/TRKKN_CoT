@@ -18,6 +18,28 @@
 
   <!-- Protección de acceso -->
   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Espera a que Firebase esté listo
+      const waitForAuth = () => {
+        if (window.auth && typeof window.auth.onAuthStateChanged === "function") {
+          window.auth.onAuthStateChanged(user => {
+            if (!user) {
+              alert("⚠️ Inicia sesión Trkkie!");
+              window.location.href = "auth.html";
+            } else {
+              document.body.style.display = "block";
+            }
+          });
+        } else {
+          // Reintenta hasta que esté listo (espera 100ms)
+          setTimeout(waitForAuth, 100);
+        }
+      };
+  
+      waitForAuth();
+    });
+  </script>
+  <script>
     window.addEventListener("DOMContentLoaded", () => {
       // ✅ Usa window.auth, que ya viene de firebase-init.js
       window.auth.onAuthStateChanged(user => {
