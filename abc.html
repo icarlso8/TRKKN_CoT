@@ -10,15 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet">
   <style>body { display: none !important; }</style>
   <script type="module">
-    import { auth } from './firebase-config.js';
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+    import { auth } from "./firebase-init.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth, (user) => {
       if (!user) {
         alert("⚠️ Inicia sesión Trkkie!");
         window.location.href = "auth.html";
-      } else {
-        document.body.style.display = "block";
       }
     });
   </script>
