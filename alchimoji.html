@@ -397,10 +397,10 @@
                 generatedMetadata.push(metadata);
               });
 
-              // ✅ Agrega timestamp e id final
-              metadata.timestamp_local = timestamp_local;
-              metadata.timestamp_utc = timestamp_utc;
-              metadata.id = `${metadata.variant_id}-${timestamp_local}`;
+              // ✅ Agrega timestamp e id final -> Redundante
+              // metadata.timestamp_local = timestamp_local; -> Redundante
+              // metadata.timestamp_utc = timestamp_utc; -> Redundante
+              // metadata.id = `${metadata.variant_id}-${timestamp_local}`; -> Redundante
               
               // ✅ Guarda en el array de metadatos
               // generatedMetadata.push(metadata); Línea Duplicada Línea 397
