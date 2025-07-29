@@ -7,59 +7,46 @@
   <title>TRKKN_CoT - WhatsApp Conversion Import</title>
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
 
-  <!-- Oculta el body hasta que esté autenticado -->
+  <!-- Oculta el body hasta verificar autenticación -->
   <style>body { display: none !important; }</style>
 
-  <!-- Carga Firebase SDK -->
+  <!-- Firebase SDK (CDN) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js"></script>
-  <!-- Inicializa Firebase y deja auth global -->
+
+  <!-- Inicialización de Firebase -->
   <script src="./firebase-init.js"></script>
 
   <!-- Protección de acceso -->
   <script>
-    const MAX_RETRIES = 20;
-    let attempts = 0;
-  
-    const waitForAuth = setInterval(() => {
+    let retries = 0;
+
+    const checkAuthReady = () => {
       if (window.auth && typeof window.auth.onAuthStateChanged === "function") {
         console.log("✅ window.auth disponible. Iniciando protección…");
-        clearInterval(waitForAuth);
-  
+
         window.auth.onAuthStateChanged(user => {
           if (!user) {
             alert("⚠️ Inicia sesión Trkkie!");
             window.location.href = "auth.html";
           } else {
-            document.body.style.display = "block";
             console.log("✅ Usuario autenticado");
+            document.body.style.display = "block";
           }
         });
-  
       } else {
-        attempts++;
-        console.log(`⏳ Esperando window.auth... intento ${attempts}`);
-        if (attempts >= MAX_RETRIES) {
-          clearInterval(waitForAuth);
+        retries++;
+        console.warn("❌ window.auth aún no disponible. Reintentando...");
+        if (retries < 10) {
+          setTimeout(checkAuthReady, 300); // vuelve a intentar
+        } else {
           console.error("❌ No se pudo cargar Firebase Auth.");
-          alert("Error al cargar autenticación. Recarga la página.");
+          alert("Error cargando autenticación. Intenta recargar.");
         }
       }
-    }, 300); // Reintenta cada 300ms
-  </script>
+    };
 
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      // ✅ Usa window.auth, que ya viene de firebase-init.js
-      window.auth.onAuthStateChanged(user => {
-        if (!user) {
-          alert("⚠️ Inicia sesión Trkkie!");
-          window.location.href = "auth.html";
-        } else {
-          document.body.style.display = "block";
-        }
-      });
-    });
+    window.addEventListener("DOMContentLoaded", checkAuthReady);
   </script>
 </head>
 <body>
