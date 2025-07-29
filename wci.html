@@ -18,32 +18,36 @@
 
   <!-- Protección de acceso -->
   <script>
-    console.log("⏳ Esperando a que Firebase se inicialice...");
+    const MAX_RETRIES = 20;
+    let attempts = 0;
   
-    document.addEventListener("DOMContentLoaded", () => {
-      const waitForAuth = () => {
-        if (window.auth && typeof window.auth.onAuthStateChanged === "function") {
-          console.log("✅ Firebase listo. Protegiendo acceso...");
-          window.auth.onAuthStateChanged(user => {
-            if (!user) {
-              console.warn("🚫 Usuario no autenticado. Redirigiendo a auth.html...");
-              alert("⚠️ Inicia sesión Trkkie!");
-              window.location.href = "auth.html";
-            } else {
-              console.log("✅ Usuario autenticado:", user.email);
-              document.body.style.display = "block";
-            }
-          });
-        } else {
-          console.log("❌ window.auth aún no disponible. Reintentando...");
-          setTimeout(waitForAuth, 100);
+    const waitForAuth = setInterval(() => {
+      if (window.auth && typeof window.auth.onAuthStateChanged === "function") {
+        console.log("✅ window.auth disponible. Iniciando protección…");
+        clearInterval(waitForAuth);
+  
+        window.auth.onAuthStateChanged(user => {
+          if (!user) {
+            alert("⚠️ Inicia sesión Trkkie!");
+            window.location.href = "auth.html";
+          } else {
+            document.body.style.display = "block";
+            console.log("✅ Usuario autenticado");
+          }
+        });
+  
+      } else {
+        attempts++;
+        console.log(`⏳ Esperando window.auth... intento ${attempts}`);
+        if (attempts >= MAX_RETRIES) {
+          clearInterval(waitForAuth);
+          console.error("❌ No se pudo cargar Firebase Auth.");
+          alert("Error al cargar autenticación. Recarga la página.");
         }
-      };
-  
-      waitForAuth();
-    });
+      }
+    }, 300); // Reintenta cada 300ms
   </script>
-  
+
   <script>
     window.addEventListener("DOMContentLoaded", () => {
       // ✅ Usa window.auth, que ya viene de firebase-init.js
