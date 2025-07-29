@@ -8,26 +8,6 @@
   <!-- <link rel="icon" href="https://cdn.jsdelivr.net/gh/icarlso8/TRKKN_CoT/assets/logos/logo_claro_v1.png"> -->
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet">
-  <!-- <body style="display: none;"> -->
-  <!-- ✅ Protección de acceso con Firebase Módulos -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { firebaseConfig } from "./firebase-config.js";
-  
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-  
-    onAuthStateChanged(auth, user => {
-      if (!user) {
-        alert("⚠️ Inicia sesión Trkkie!");
-        window.location.href = "auth.html";
-      } else {
-        console.log("✅ Usuario autenticado:", user.email);
-        document.body.style.display = "block";
-      }
-    });
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -114,7 +94,6 @@
 
 </head>
 <body style="display: none;">
-<body>
   <!-- <h1><img src="Alchimoji_Logo.png" alt="Alchimoji Logo""></h1>  -->
 
   <!-- <form id="alchimoji-form" style="text-align: left;"> -->
