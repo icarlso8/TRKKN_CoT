@@ -19,7 +19,8 @@
   <!-- Protección de acceso -->
   <script>
     window.addEventListener("DOMContentLoaded", () => {
-      firebase.auth().onAuthStateChanged(user => {
+      // ✅ Usa window.auth, que ya viene de firebase-init.js
+      window.auth.onAuthStateChanged(user => {
         if (!user) {
           alert("⚠️ Inicia sesión Trkkie!");
           window.location.href = "auth.html";
