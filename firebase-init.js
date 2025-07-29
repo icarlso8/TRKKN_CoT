@@ -10,10 +10,13 @@ const firebaseConfig = {
   appId: "1:490397786735:web:6cc8d158f904865bdc239a"
 };
 
-// Inicializa la app si aún no está inicializada (para evitar errores en recargas)
+// Inicializa Firebase si aún no está inicializado (evita errores en recarga)
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-// Deja auth global (firebase.auth ya está disponible porque cargaste firebase-auth.js)
+// Deja auth global (porque firebase-auth.js ya está cargado antes)
 window.auth = firebase.auth();
+
+// ✅ Verificación final en consola
+console.log("🚀 firebase-init.js cargado correctamente");
