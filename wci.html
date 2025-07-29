@@ -6,38 +6,29 @@
   <meta name="robots" content="noindex, nofollow">
   <title>TRKKN_CO_wci</title>
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
-
-  <style>body { display: none !important; }</style>
-
-  <!-- ✅ Firebase UMD compatible con GitHub Pages -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
-  
-  <!-- ✅ Inicializa Firebase -->
-  <script src="./firebase-init.js"></script>
-
-  <!-- Protección de acceso -->
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      if (!window.auth) {
-        console.error("❌ Firebase Auth no cargado");
-        return;
-      }
-
-      window.auth.onAuthStateChanged(user => {
-        if (!user) {
-          alert("⚠️ Inicia sesión Trkkie!");
-          window.location.href = "auth.html";
-        } else {
-          console.log("✅ Usuario autenticado:", user.email);
-          document.body.style.display = "block";
-        }
-      });
-    });
-  </script>
 </head>
-<body>
+<body style="display: none;">
   <h2>Vista de demostración de WCI (WhatsApp Conversion Import)</h2>
   <p>En construcción...</p>
+
+  <!-- ✅ Protección de acceso con Firebase Módulos -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        alert("⚠️ Inicia sesión Trkkie!");
+        window.location.href = "auth.html";
+      } else {
+        console.log("✅ Usuario autenticado:", user.email);
+        document.body.style.display = "block";
+      }
+    });
+  </script>
 </body>
 </html>
