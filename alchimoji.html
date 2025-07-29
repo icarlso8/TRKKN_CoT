@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <style>body { display: none !important; }</style>
+  <style>body { display: none !important; }</style> <!-- Este estilo forzará que el contenido no se muestre mientras se verifica la sesión del usuario -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alchimoji</title>
   <!-- <link rel="icon" href="https://cdn.jsdelivr.net/gh/icarlso8/TRKKN_CoT/assets/logos/logo_claro_v1.png"> -->
   <link rel="icon" href="assets/TRKKN_icon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Mulish&display=swap" rel="stylesheet">
+  <style>body { display: none !important; }</style>
+  <script type="module">
+    import { auth } from './firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+  
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        alert("⚠️ Inicia sesión Trkkie!");
+        window.location.href = "auth.html";
+      } else {
+        document.body.style.display = "block";
+      }
+    });
+  </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
