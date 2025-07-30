@@ -359,35 +359,6 @@
       if (form.copy2.checked) copies.push({ text: form.copyText2.value, color: form.copyColor2.value });
       if (form.copy3.checked) copies.push({ text: form.copyText3.value, color: form.copyColor3.value });
 
-      const iaModelSelect = document.getElementById('iaModelSelect');
-      const generateIA = document.getElementById('generateIA');
-      
-      document.querySelectorAll('input[name="copyMode"]').forEach(radio => {
-        radio.addEventListener('change', (e) => {
-          const isIA = e.target.value === 'ia';
-          iaModelSelect.disabled = !isIA;
-          generateIA.disabled = !isIA;
-      
-          // Deshabilitar o habilitar los campos manuales de texto
-          ['copyText1', 'copyText2', 'copyText3'].forEach(name => {
-            document.getElementsByName(name)[0].disabled = isIA;
-          });
-        });
-      });
-
-      generateIA.addEventListener('click', () => {
-        const model = iaModelSelect.value;
-        alert(`🔄 Generando copies con ${model}... (simulado)`);
-      
-        // 🧠 Paso 3: Acción del botón "Generar con IA"
-        form.copy1.checked = true;
-        form.copyText1.value = "Oferta exclusiva para ti";
-        form.copy2.checked = true;
-        form.copyText2.value = "¡Solo por tiempo limitado!";
-        form.copy3.checked = false;
-        form.copyText3.value = "";
-      });
-
       audiencias.forEach(aud => {
         momentos.forEach(mom => {
           sizes.forEach(size => {
@@ -535,6 +506,41 @@
       link.href = URL.createObjectURL(blob);
       link.download = "alchimoji_creatividades.zip";
       link.click();
+    });
+
+    // 🔁 Cambiar entre modo manual / IA para los copies
+    const iaModelSelect = document.getElementById('iaModelSelect');
+    const generateIA = document.getElementById('generateIA');
+  
+    document.querySelectorAll('input[name="copyMode"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const isIA = e.target.value === 'ia';
+        iaModelSelect.disabled = !isIA;
+        generateIA.disabled = !isIA;
+  
+        // Deshabilitar o habilitar campos de texto
+        form.copyText1.disabled = isIA;
+        form.copyText2.disabled = isIA;
+        form.copyText3.disabled = isIA;
+      });
+    });
+  
+    generateIA.addEventListener('click', () => {
+      const model = iaModelSelect.value;
+      alert(`🔄 Generando copies con ${model}... (simulado)`);
+  
+      // Asignar textos simulados
+      form.copy1.checked = true;
+      form.copyText1.value = "Oferta exclusiva para ti";
+      form.copyText1.disabled = true;
+  
+      form.copy2.checked = true;
+      form.copyText2.value = "¡Solo por tiempo limitado!";
+      form.copyText2.disabled = true;
+  
+      form.copy3.checked = false;
+      form.copyText3.value = "";
+      form.copyText3.disabled = true;
     });
 
     // Cargar dinámicamente los íconos desde el JSON -> Solo se debe actualizar el JSON
