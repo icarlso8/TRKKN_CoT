@@ -84,7 +84,7 @@
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      localStorage.setItem("logoutInProgress", "true"); // Marca la bandera
+      localStorage.setItem("logoutInProgress", "true"); // Marca la bandera para evitar doble alerta de inicio de sesión
       await auth.signOut();
       alert("Sesión cerrada");
       window.location.href = "auth.html";
