@@ -358,7 +358,23 @@
       if (form.copy1.checked) copies.push({ text: form.copyText1.value, color: form.copyColor1.value });
       if (form.copy2.checked) copies.push({ text: form.copyText2.value, color: form.copyColor2.value });
       if (form.copy3.checked) copies.push({ text: form.copyText3.value, color: form.copyColor3.value });
-    
+
+      const iaModelSelect = document.getElementById('iaModelSelect');
+      const generateIA = document.getElementById('generateIA');
+      
+      document.querySelectorAll('input[name="copyMode"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const isIA = e.target.value === 'ia';
+          iaModelSelect.disabled = !isIA;
+          generateIA.disabled = !isIA;
+      
+          // Deshabilitar o habilitar los campos manuales de texto
+          ['copyText1', 'copyText2', 'copyText3'].forEach(name => {
+            document.getElementsByName(name)[0].disabled = isIA;
+          });
+        });
+      });
+
       audiencias.forEach(aud => {
         momentos.forEach(mom => {
           sizes.forEach(size => {
