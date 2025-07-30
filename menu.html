@@ -70,15 +70,21 @@
   <script>
     const auth = firebase.auth();
     auth.onAuthStateChanged(user => {
+      const logoutFlag = localStorage.getItem("logoutInProgress");
       if (!user) {
-        alert("⚠️ Inicia sesión Trkkie!");
-        window.location.href = "auth.html";
+        if (logoutFlag) {
+          localStorage.removeItem("logoutInProgress"); // 🧹 Limpia la bandera
+          return; // No mostrar alerta, ya lo hicimos
+        }
+          alert("⚠️ Inicia sesión Trkkie!");
+          window.location.href = "auth.html";
       } else {
         document.body.style.visibility = "visible";
       }
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
+      localStorage.setItem("logoutInProgress", "true"); // Marca la bandera
       await auth.signOut();
       alert("Sesión cerrada");
       window.location.href = "auth.html";
