@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+  <style id="hide-body-style">
+    html, body {
+      display: none !important;
+      background: #ffffff;
+    }
+  </style>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRKKN_CO_abc</title>
@@ -110,6 +118,7 @@
           window.location.href = "auth.html";
         } else {
           console.log("✅ Usuario autenticado:", user.email);
+          document.getElementById("hide-body-style")?.remove();
           document.body.style.display = "block";
         }
       });
