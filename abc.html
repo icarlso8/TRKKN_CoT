@@ -163,6 +163,23 @@
   <div class="form-section" style="flex-direction: column; align-items: flex-start;">
     <strong>📝 Copies:</strong>
 
+    <!-- Selector de modo Manual / IA -->
+    <label style="margin-left: 16px;">
+      <input type="radio" name="copyMode" value="manual" checked> ✍️ Escribir manualmente
+    </label>
+    <label style="margin-left: 16px;">
+      <input type="radio" name="copyMode" value="ia"> 🤖 Generar con IA
+      <select id="iaModelSelect" disabled>
+        <option value="gemini">Gemini (TopicMine)</option>
+        <option value="openai">OpenAI</option>
+        <option value="claude">Claude</option>
+        <option value="mistral">Mistral</option>
+        <option value="groq">Groq</option>
+      </select>
+      <button type="button" id="generateIA" disabled>Generar</button>
+    </label>
+    
+    <!-- Campos de texto de copies -->
     <label style="margin-left: 16px; width: 100%;">
       <input type="checkbox" name="copy1">
       Texto 1:
