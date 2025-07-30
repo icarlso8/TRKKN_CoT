@@ -375,6 +375,19 @@
         });
       });
 
+      generateIA.addEventListener('click', () => {
+        const model = iaModelSelect.value;
+        alert(`🔄 Generando copies con ${model}... (simulado)`);
+      
+        // 🧠 Paso 3: Acción del botón "Generar con IA"
+        form.copy1.checked = true;
+        form.copyText1.value = "Oferta exclusiva para ti";
+        form.copy2.checked = true;
+        form.copyText2.value = "¡Solo por tiempo limitado!";
+        form.copy3.checked = false;
+        form.copyText3.value = "";
+      });
+
       audiencias.forEach(aud => {
         momentos.forEach(mom => {
           sizes.forEach(size => {
