@@ -27,6 +27,13 @@
       margin: 0;
       padding: 0;
     }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
     .logo {
       width: 40px;
       height: 40px;
@@ -76,15 +83,17 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <div class="header">
-    <img src="TRKKN_Love_Logo.png" alt="Logo" class="logo" />
-    <span class="title">Bienvenido al sitio de pruebas WCI</span>
-  </div>
-
-  <div class="buttons">
-    <button class="btn btn-whatsapp" onclick="handleWhatsAppClick()">Contáctanos por WhatsApp</button>
-    <button class="btn btn-call" onclick="handleCallClick()">Llámanos ahora</button>
-  </div>
+  <div class="container">
+    <div class="header">
+      <img src="TRKKN_Love_Logo.png" alt="Logo" class="logo" />
+      <span class="title">Bienvenido al sitio de pruebas WCI</span>
+    </div>
+  
+    <div class="buttons">
+      <button class="btn btn-whatsapp" onclick="handleWhatsAppClick()">Contáctanos por WhatsApp</button>
+      <button class="btn btn-call" onclick="handleCallClick()">Llámanos ahora</button>
+    </div>
+   </div>
 
   <script>
     function handleWhatsAppClick() {
