@@ -126,6 +126,8 @@
   
 </head>
 <body>
+  <iframe id="bridgeFrame" src="https://script.google.com/macros/s/AKfycbyLWFOwrWroUbRwWezh_bAmOq667bTeSFn__0iKxNMt9tgue3HHNnDQdoDD5S2L2dIS7A/exec" style="display: none;"></iframe>
+
   <!-- <h1><img src="Alchimoji_Logo.png" alt="Alchimoji Logo""></h1> --> <!--  --> 
 
   <!-- <form id="alchimoji-form" style="text-align: left;"> -->
@@ -575,7 +577,39 @@
         });
       })
       .catch(error => console.error('Error cargando logos:', error));
+
+    // 🔁 Escuchar mensajes desde el iframe (bridge)
+    window.addEventListener("message", (event) => {
+      if (event.origin !== "https://script.google.com") return; // Seguridad: valida el origen
     
+      const data = event.data;
+      if (data.result) {
+        console.log("✅ Copy recibido:", data.result);
+        form.copy1.checked = true;
+        form.copyText1.value = data.result;
+        form.copyText1.disabled = true;
+      } else {
+        console.error("❌ Error del bridge:", data.error);
+      }
+    });
+    
+    // 🧠 Enviar prompt al bridge
+    function solicitarCopy(prompt) {
+      const iframe = document.getElementById("bridgeFrame");
+      iframe.contentWindow.postMessage({ prompt }, "*");
+    }
+    
+    // ⏩ Reemplaza el contenido del botón Generar IA
+    generateIA.addEventListener('click', () => {
+      const model = iaModelSelect.value;
+      if (model === "gemini") {
+        const prompt = "Dame un copy de máximo 50 caracteres para promocionar un plan pospago de Tigo";
+        solicitarCopy(prompt);
+      } else {
+        alert(`Modelo no implementado aún: ${model}`);
+      }
+    });
+
   </script>
 
   <!-- <script>document.body.style.display = "block";</script> --> <!-- Ya no necesario -->
